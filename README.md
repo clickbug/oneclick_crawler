@@ -14,7 +14,7 @@ Você pode instalar as bibliotecas usando o gerenciador de pacotes pip:
 
 ```bash
 pip install requests beautifulsoup4 lxml
-´´´
+bash´´´
 
 Como usar
 

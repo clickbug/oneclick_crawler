@@ -50,8 +50,8 @@ def save_links_to_file(links, file_path):
 def signal_handler(signal, frame):
     print("Rastreamento interrompido manualmente.")
     if links_intern or links_extern:
-        save_links_to_file(links_intern, "links_intern.txt")
-        save_links_to_file(links_extern, "links_extern.txt")
+        save_links_to_file(links_intern, "url_intern.txt")
+        save_links_to_file(links_extern, "url_extern.txt")
     sys.exit(0)
 
 if __name__ == "__main__":
@@ -61,8 +61,8 @@ if __name__ == "__main__":
     parser.add_argument("url", help="URL de entrada para iniciar o rastreamento.")
     parser.add_argument("depth", type=int, help="Profundidade desejada para o rastreamento.")
     parser.add_argument("-o", "--output", default=None,
-                        help="Salvar links internos, externos ou ambos em um arquivo. "
-                             "Escolha 'intern', 'extern', 'all' ou não especifique para não salvar.")
+                        help="Salvar links internos, externos ou ambos em um unico arquivo ou arquivos diferentes. "
+                             "Escolha 'intern', 'extern', 'all', 'both' ou não especifique para não salvar.")
     parser.add_argument("-f", "--file", default=None,
                         help="Caminho e nome do arquivo para salvar os links (opcional).")
 
@@ -78,9 +78,12 @@ if __name__ == "__main__":
 
         if args.output:
             if args.output == "intern":
-                save_links_to_file(links_intern, args.file or "links_intern.txt")
+                save_links_to_file(links_intern, args.file or "url_intern.txt")
             elif args.output == "extern":
-                save_links_to_file(links_extern, args.file or "links_extern.txt")
+                save_links_to_file(links_extern, args.file or "url_extern.txt")
             elif args.output == "all":
-                all_links = links_intern.union(links_extern)
-                save_links_to_file(all_links, args.file or "all_links.txt")
+                all_url = links_intern.union(links_extern)
+                save_links_to_file(all_url, args.file or "all_url.txt")
+            elif args.output == "both":
+                save_links_to_file(links_intern, "intern_" + args.file or "url_intern.txt")
+                save_links_to_file(links_extern, "extern_" + args.file or "url_extern.txt")
